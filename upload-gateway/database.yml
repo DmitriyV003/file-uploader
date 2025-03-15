@@ -1,0 +1,9 @@
+---
+development:
+  dialect: mysql
+  database: homestead
+  user: homestead
+  password: secret
+  port: 3306
+  host: mysql
+  pool: 5

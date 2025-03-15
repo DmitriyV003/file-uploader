@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: homestead
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: secret
+    ports:
+      - '33070:3306'
+    volumes:
+      - db-data:/var/lib/mysql
+
+  upload-gateway:
+    restart: unless-stopped
+    build:
+      context: ./upload-gateway
+      dockerfile: .Dockerfile
+    depends_on:
+      mysql:
+        condition: service_started
+    ports:
+      - "7000:7000"
+
+  store-server-base: &store-server-base
+    restart: unless-stopped
+    build:
+      context: ./store-server
+      dockerfile: .Dockerfile
+    environment:
+      - PORT=50052
+    ports:
+      - "50052:50052"
+
+  store-server-1:
+    <<: *store-server-base
+    environment:
+       - PORT=50053
+    ports:
+      - "50053:50053"
+
+  store-server-2:
+    <<: *store-server-base
+    environment:
+      - PORT=50054
+    ports:
+      - "50054:50054"
+
+  store-server-3:
+    <<: *store-server-base
+    environment:
+      - PORT=50055
+    ports:
+      - "50055:50055"
+
+  store-server-4:
+    <<: *store-server-base
+    environment:
+      - PORT=50056
+    ports:
+      - "50056:50056"
+
+  store-server-5:
+    <<: *store-server-base
+    environment:
+      - PORT=50057
+    ports:
+      - "50057:50057"
+
+volumes:
+  db-data:

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "platform/uploadpb;uploadpb";
+
+service UploadFileApi {
+  rpc UploadFile(stream UploadFileRequest) returns (UploadFileResponse) {}
+  rpc GetFileChunk(FileRequest) returns (stream FileChunk);
+}
+
+message FileRequest {
+  string file_name = 1;
+}
+
+message FileChunk {
+  bytes data = 1;
+  int32 chunk_number = 2;
+}
+
+message UploadFileRequest {
+  int32 partNumber = 1;
+  bytes data = 2;
+  string fileId = 3;
+}
+
+message UploadFileResponse {
+  int32 code = 1;
+  string hash = 2;
+}
