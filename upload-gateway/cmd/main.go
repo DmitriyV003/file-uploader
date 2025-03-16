@@ -20,10 +20,9 @@ func main() {
 	serverSelector := internal.NewDefaultServerSelector(serverRepository)
 	fileNameGenerator := internal.NewDefaultFileNameNameGenerator()
 	uploader := internal.NewUploader(serverSelector, fileNameGenerator, internal.GRPCStreamSender, uploadedFileRepository, uploadedFileChunkRepository)
-	downloader := internal.NewDownloader(uploadedFileRepository, internal.GRPCStreamDownloader)
 
 	uh := http_interface.NewUploaderHandler(uploader)
-	dh := http_interface.NewDownloadHandler(downloader, uploadedFileRepository, internal.NewGRPCChannelDownloader())
+	dh := http_interface.NewDownloadHandler(uploadedFileRepository, internal.NewGRPCChannelDownloader())
 
 	http.HandleFunc("/upload", uh.Handle)
 	http.HandleFunc("/", dh.Handle)

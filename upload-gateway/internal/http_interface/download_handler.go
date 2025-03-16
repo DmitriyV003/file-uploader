@@ -12,18 +12,15 @@ import (
 )
 
 type DownloadHandler struct {
-	downloader             *internal.Downloader
 	uploadedFileRepository *repository.UploadedFileRepository
 	grpcChannelDownloader  *internal.GRPCChannelDownloader
 }
 
 func NewDownloadHandler(
-	downloader *internal.Downloader,
 	uploadedFileRepository *repository.UploadedFileRepository,
 	grpcChannelDownloader *internal.GRPCChannelDownloader,
 ) *DownloadHandler {
 	return &DownloadHandler{
-		downloader:             downloader,
 		uploadedFileRepository: uploadedFileRepository,
 		grpcChannelDownloader:  grpcChannelDownloader,
 	}
